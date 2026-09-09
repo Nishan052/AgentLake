@@ -1,0 +1,22 @@
+{
+  "skill": "npu-op-compat",
+  "purpose": "Trigger-behavior spec for deterministic lexical routing and manual behavior checks.",
+  "cases": [
+    {"id": "why-slow-on-tpu", "prompt": "why is my model slow on the edge tpu", "should_trigger": true,
+     "assert": "Runs check_ops.py, reports the partition cut and the CPU-stranded fraction."},
+    {"id": "will-it-compile", "prompt": "will this onnx model compile for coral", "should_trigger": true,
+     "assert": "Checks operators in graph order, names the first unsupported one."},
+    {"id": "which-layers-fallback", "prompt": "which layers fall back to cpu on my accelerator", "should_trigger": true,
+     "assert": "Leads with the cut point, not with a count of unsupported operators."},
+    {"id": "unsupported-operator", "prompt": "what does an unsupported operator cost me on an npu", "should_trigger": true,
+     "assert": "Explains the single-partition rule: everything after the cut runs on CPU."},
+    {"id": "before-porting", "prompt": "check this network before I port it to edge hardware", "should_trigger": true,
+     "assert": "Runs the check and states the pre-conversion caveats."},
+    {"id": "near-miss-quant", "prompt": "which quantisation format should I pick", "should_trigger": false,
+     "assert": "Asks which number format to use, not where the graph is cut."},
+    {"id": "near-miss-post", "prompt": "write the caption for linkedin", "should_trigger": false,
+     "assert": "Asks for social copy. No model, no graph, no hardware."},
+    {"id": "near-miss-ledger", "prompt": "is this claim proven or still open", "should_trigger": false,
+     "assert": "Asks about the status of an assertion, not about a network."}
+  ]
+}

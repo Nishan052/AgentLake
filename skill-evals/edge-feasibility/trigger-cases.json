@@ -1,0 +1,54 @@
+{
+  "skill": "edge-feasibility",
+  "purpose": "Trigger-behavior spec for deterministic lexical routing and manual behavior checks.",
+  "cases": [
+    {
+      "id": "will-it-fit",
+      "prompt": "will a 13B model fit on 16 gigabytes of unified memory",
+      "should_trigger": true,
+      "assert": "Weights plus key-value cache plus runtime overhead against installed memory."
+    },
+    {
+      "id": "how-fast",
+      "prompt": "how many tokens per second will this model generate on my laptop",
+      "should_trigger": true,
+      "assert": "Reports the bandwidth ceiling and the 38-85% band, not a point estimate."
+    },
+    {
+      "id": "which-hardware",
+      "prompt": "which hardware should I buy for local inference",
+      "should_trigger": true,
+      "assert": "Compares memory bandwidth, since single-stream decode is bandwidth bound."
+    },
+    {
+      "id": "is-that-possible",
+      "prompt": "is that quoted tokens per second figure even physically possible",
+      "should_trigger": true,
+      "assert": "Computes the ceiling and says whether the claim exceeds it."
+    },
+    {
+      "id": "long-context",
+      "prompt": "will a long context window still fit in memory",
+      "should_trigger": true,
+      "assert": "Sizes the key-value cache and asks whether grouped-query attention applies."
+    },
+    {
+      "id": "near-miss-ops",
+      "prompt": "why is my model slow on the edge tpu",
+      "should_trigger": false,
+      "assert": "That is npu-op-compat: an operator mapping question, not a bandwidth one."
+    },
+    {
+      "id": "near-miss-headings",
+      "prompt": "the headings need improving",
+      "should_trigger": false,
+      "assert": "Asks about the shape of a piece of writing, not about hardware."
+    },
+    {
+      "id": "near-miss-publish",
+      "prompt": "ship the finished content to the site",
+      "should_trigger": false,
+      "assert": "Asks to move finished work somewhere, not to size a model."
+    }
+  ]
+}

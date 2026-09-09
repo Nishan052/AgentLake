@@ -1,0 +1,63 @@
+{
+  "target": "edgetpu",
+  "display_name": "Google Coral Edge TPU",
+  "source": "https://coral.ai/docs/edgetpu/models-intro/",
+  "source_table": "Table 1 - All operations supported by the Edge TPU and any known limitations",
+  "retrieved": "2026-09-06",
+  "note": [
+    "Vendor op support changes with compiler releases. This file records what the",
+    "cited page said on the retrieved date. Re-fetch and diff before trusting it",
+    "for a new compiler version."
+  ],
+  "partition_rule": {
+    "single_cut": true,
+    "quote": "At the first point in the model graph where an unsupported operation occurs, the compiler partitions the graph into two parts. Currently, the Edge TPU compiler cannot partition the model more than once.",
+    "consequence": "Everything after the first unsupported operation runs on the CPU, however well supported those later operations are. Position dominates count."
+  },
+  "requires_quantisation": {
+    "value": true,
+    "note": "Only fully integer-quantised TFLite models compile. A float32 model maps nothing."
+  },
+  "ops": {
+    "Add":                   {"runtime": "all",  "limits": null},
+    "AveragePool2d":         {"runtime": "all",  "limits": "No fused activation function."},
+    "Concatenation":         {"runtime": "all",  "limits": "No fused activation function. If any input is a compile-time constant tensor, there must be only 2 inputs, and this constant tensor must be all zeros."},
+    "Conv2d":                {"runtime": "all",  "limits": "Must use the same dilation in x and y dimensions."},
+    "DepthwiseConv2d":       {"runtime": ">=13", "limits": "Must use the same dilation in x and y dimensions. On runtime <=12, dilated conv kernels are not supported at all."},
+    "ExpandDims":            {"runtime": ">=13", "limits": null},
+    "FullyConnected":        {"runtime": "all",  "limits": "Only the default format is supported for fully-connected weights. Output tensor is one-dimensional."},
+    "L2Normalization":       {"runtime": "all",  "limits": null},
+    "Logistic":              {"runtime": "all",  "limits": null},
+    "LSTM":                  {"runtime": ">=14", "limits": "Unidirectional LSTM only."},
+    "Maximum":               {"runtime": "all",  "limits": null},
+    "MaxPool2d":             {"runtime": "all",  "limits": "No fused activation function."},
+    "Mean":                  {"runtime": ">=13", "limits": "No reduction in batch dimension. If a z-reduction, the z-dimension must be a multiple of 4. On runtime <=12, reduction along x and/or y dimensions only."},
+    "Minimum":               {"runtime": "all",  "limits": null},
+    "Mul":                   {"runtime": "all",  "limits": null},
+    "Pack":                  {"runtime": ">=13", "limits": "No packing in batch dimension."},
+    "Pad":                   {"runtime": ">=13", "limits": "No padding in batch dimension. On runtime <=12, padding along x and/or y dimensions only."},
+    "PReLU":                 {"runtime": ">=13", "limits": "Alpha must be 1-dimensional (only the innermost dimension can be larger than size 1)."},
+    "Quantize":              {"runtime": ">=13", "limits": null},
+    "ReduceMax":             {"runtime": ">=14", "limits": "Cannot operate on the batch dimension."},
+    "ReduceMin":             {"runtime": ">=14", "limits": "Cannot operate on the batch dimension."},
+    "ReLU":                  {"runtime": "all",  "limits": null},
+    "ReLU6":                 {"runtime": "all",  "limits": null},
+    "ReLUN1To1":             {"runtime": "all",  "limits": null},
+    "Reshape":               {"runtime": "all",  "limits": "Certain reshapes might not be mapped for large tensor sizes."},
+    "ResizeBilinear":        {"runtime": "all",  "limits": "Input/output is a 3-dimensional tensor. Depending on input/output size, this operation might not be mapped."},
+    "ResizeNearestNeighbor": {"runtime": "all",  "limits": "Input/output is a 3-dimensional tensor. Depending on input/output size, this operation might not be mapped."},
+    "Rsqrt":                 {"runtime": ">=14", "limits": null},
+    "Slice":                 {"runtime": "all",  "limits": null},
+    "Softmax":               {"runtime": "all",  "limits": "Supports only 1-D input tensor with a max of 16,000 elements."},
+    "SpaceToDepth":          {"runtime": "all",  "limits": null},
+    "Split":                 {"runtime": "all",  "limits": "No splitting in batch dimension."},
+    "Squeeze":               {"runtime": ">=13", "limits": "On runtime <=12, supported only when input tensor dimensions have leading 1s."},
+    "StridedSlice":          {"runtime": "all",  "limits": "Supported only when all strides are equal to 1."},
+    "Sub":                   {"runtime": "all",  "limits": null},
+    "Sum":                   {"runtime": ">=13", "limits": "Cannot operate on the batch dimension."},
+    "SquaredDifference":     {"runtime": ">=14", "limits": null},
+    "Tanh":                  {"runtime": "all",  "limits": null},
+    "Transpose":             {"runtime": ">=14", "limits": null},
+    "TransposeConv":         {"runtime": ">=13", "limits": null}
+  }
+}

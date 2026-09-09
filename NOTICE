@@ -1,0 +1,38 @@
+AgentLake
+Copyright (c) 2026 Nishan Chandrashekar Poojary
+
+This product includes software developed as part of awesome-llm-apps
+(https://github.com/Shubhamsaboo/awesome-llm-apps), Copyright Shubham Saboo,
+licensed under the Apache License, Version 2.0. A copy of that license is
+available at http://www.apache.org/licenses/LICENSE-2.0.
+
+The following files are derived from that project. Each carries a header
+recording its origin and any local modifications:
+
+  skill-evals/tools/skill_lint.py
+  skill-evals/tools/skill_scanner.py
+  skill-evals/tools/run_trigger_evals.py
+  .github/workflows/skill-evals.yml
+
+Modifications made in this repository:
+
+  - skill_scanner.py: unmodified. Takes a path argument.
+  - skill_lint.py: takes a skill directory as an argument, and its bare-path
+    rule no longer flags a repository-relative path that merely contains a
+    scripts/ segment.
+  - run_trigger_evals.py: SKILLS_ROOT repointed at .claude/skills/, because
+    skills live there in this repo rather than under agent_skills/.
+  - skill-evals.yml: job paths repointed at .claude/skills/ and skill-evals/,
+    and a job added to run this repository's own verification script.
+
+The five-tier eval model in skill-evals/README.md also follows the structure
+documented in awesome-llm-apps/agent_skills/evals/README.md, which in turn
+credits addyosmani/agent-skills for tiers 1-3 and Anthropic's skill-creator for
+the evals.json schema.
+
+The operator tables and device specifications shipped with the skills are
+restatements of vendor documentation. Each entry carries its source URL and the
+date it was retrieved, in the reference file that holds it.
+
+Everything else in this repository is original work under the MIT License, see
+LICENSE.

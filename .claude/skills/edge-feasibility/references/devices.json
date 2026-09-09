@@ -1,0 +1,41 @@
+{
+  "retrieved": "2026-09-07",
+  "note": [
+    "Memory bandwidth and capacity for devices that run models locally. Single-",
+    "stream decode is bandwidth bound, so bandwidth is the number that decides",
+    "throughput and compute is usually irrelevant.",
+    "",
+    "Bandwidth figures for Apple parts are as reported alongside the measurements",
+    "in the llama.cpp Apple Silicon benchmark thread, which is also the source of",
+    "the validation set. Adding a device means adding a real source, not a",
+    "recollection: a spec table invented by a language model is worse than no",
+    "tool, because it is confidently wrong exactly where the user cannot check."
+  ],
+  "sources": {
+    "apple": "https://github.com/ggml-org/llama.cpp/discussions/4167",
+    "pi5": "Raspberry Pi 5 uses LPDDR5-6400, ~17.1 GB/s",
+    "jetson": "NVIDIA Jetson Orin Nano Super, 8 GB LPDDR5"
+  },
+  "devices": {
+    "m1":        {"name": "Apple M1",        "bandwidth_gbs": 68,  "memory_gb": [8, 16],        "dies": 1},
+    "m1-pro":    {"name": "Apple M1 Pro",    "bandwidth_gbs": 200, "memory_gb": [16, 32],       "dies": 1},
+    "m1-max":    {"name": "Apple M1 Max",    "bandwidth_gbs": 400, "memory_gb": [32, 64],       "dies": 1},
+    "m1-ultra":  {"name": "Apple M1 Ultra",  "bandwidth_gbs": 800, "memory_gb": [64, 128],      "dies": 2},
+    "m2":        {"name": "Apple M2",        "bandwidth_gbs": 100, "memory_gb": [8, 16, 24],    "dies": 1},
+    "m2-pro":    {"name": "Apple M2 Pro",    "bandwidth_gbs": 200, "memory_gb": [16, 32],       "dies": 1},
+    "m2-max":    {"name": "Apple M2 Max",    "bandwidth_gbs": 400, "memory_gb": [32, 64, 96],   "dies": 1},
+    "m2-ultra":  {"name": "Apple M2 Ultra",  "bandwidth_gbs": 800, "memory_gb": [64, 128, 192], "dies": 2},
+    "m3":        {"name": "Apple M3",        "bandwidth_gbs": 100, "memory_gb": [8, 16, 24],    "dies": 1,
+                  "caution": "No measurement for the base M3 in the validation set. The estimate rests on the model, not on a measured point for this part."},
+    "m3-pro":    {"name": "Apple M3 Pro",    "bandwidth_gbs": 150, "memory_gb": [18, 36],       "dies": 1},
+    "m3-max":    {"name": "Apple M3 Max",    "bandwidth_gbs": 350, "memory_gb": [36, 48, 64, 96, 128], "dies": 1,
+                  "caution": "Reported as 300-400 GB/s depending on configuration. 350 is the midpoint."},
+    "m3-ultra":  {"name": "Apple M3 Ultra",  "bandwidth_gbs": 800, "memory_gb": [96, 256, 512], "dies": 2},
+    "m4":        {"name": "Apple M4",        "bandwidth_gbs": 120, "memory_gb": [16, 24, 32],   "dies": 1},
+    "m4-pro":    {"name": "Apple M4 Pro",    "bandwidth_gbs": 273, "memory_gb": [24, 48, 64],   "dies": 1},
+    "m4-max":    {"name": "Apple M4 Max",    "bandwidth_gbs": 546, "memory_gb": [36, 48, 64, 128], "dies": 1},
+    "pi5":       {"name": "Raspberry Pi 5",  "bandwidth_gbs": 17.1, "memory_gb": [4, 8, 16],    "dies": 1,
+                  "caution": "Processor only. There is no accelerator path for large language models on this board: the AI HAT's Hailo part runs compiled vision networks, not language models."},
+    "orin-nano-super": {"name": "NVIDIA Jetson Orin Nano Super", "bandwidth_gbs": 102, "memory_gb": [8], "dies": 1}
+  }
+}

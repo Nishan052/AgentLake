@@ -1,0 +1,69 @@
+{
+  "purpose": [
+    "ONNX op names and TFLite builtin op names differ. This maps the common ONNX",
+    "operators onto the TFLite name the Edge TPU table uses, so an ONNX model can",
+    "be checked before anyone spends a day on the conversion toolchain."
+  ],
+  "retrieved": "2026-09-06",
+  "caveat": [
+    "This is a pre-conversion estimate, not the compiler's verdict. A real",
+    "TFLite converter fuses, folds and rewrites, so the final graph is not a",
+    "one-to-one image of the ONNX graph. Ops marked 'depends' cannot be resolved",
+    "from the op name alone and are reported as unknown rather than guessed."
+  ],
+  "map": {
+    "Conv": "Conv2d",
+    "ConvTranspose": "TransposeConv",
+    "Relu": "ReLU",
+    "PRelu": "PReLU",
+    "Sigmoid": "Logistic",
+    "Tanh": "Tanh",
+    "Softmax": "Softmax",
+    "MaxPool": "MaxPool2d",
+    "AveragePool": "AveragePool2d",
+    "GlobalAveragePool": "Mean",
+    "ReduceMean": "Mean",
+    "ReduceMax": "ReduceMax",
+    "ReduceMin": "ReduceMin",
+    "ReduceSum": "Sum",
+    "Gemm": "FullyConnected",
+    "MatMul": "FullyConnected",
+    "Add": "Add",
+    "Sub": "Sub",
+    "Mul": "Mul",
+    "Min": "Minimum",
+    "Max": "Maximum",
+    "Concat": "Concatenation",
+    "Reshape": "Reshape",
+    "Flatten": "Reshape",
+    "Transpose": "Transpose",
+    "Squeeze": "Squeeze",
+    "Unsqueeze": "ExpandDims",
+    "Pad": "Pad",
+    "Slice": "Slice",
+    "Split": "Split",
+    "SpaceToDepth": "SpaceToDepth",
+    "LSTM": "LSTM",
+    "QuantizeLinear": "Quantize",
+    "DequantizeLinear": "Quantize",
+    "LpNormalization": "L2Normalization"
+  },
+  "depends": {
+    "Resize": "ResizeBilinear or ResizeNearestNeighbor depending on the 'mode' attribute. Both are supported, but both carry the 3-dimensional tensor limitation.",
+    "Clip": "Lowers to ReLU6 only when the bounds are exactly 0 and 6. Any other bounds have no Edge TPU equivalent.",
+    "BatchNormalization": "Normally folded into the preceding Conv during conversion. If it survives folding there is no Edge TPU equivalent and it becomes the cut point."
+  },
+  "known_unsupported": {
+    "Div": "No Div in the Edge TPU table. Add, Sub, Mul are supported, Div is not.",
+    "LeakyRelu": "Not in the table. PReLU is supported, LeakyRelu is not.",
+    "Gather": "Not in the table. Common in embedding lookups and NMS post-processing.",
+    "Cast": "Not in the table.",
+    "Shape": "Not in the table. Frequent in dynamic-shape graphs.",
+    "Exp": "Not in the table.",
+    "Erf": "Not in the table. Appears in exact GELU.",
+    "Sqrt": "Not in the table. Rsqrt is supported, Sqrt is not.",
+    "DepthToSpace": "Not in the table. SpaceToDepth is supported, the inverse is not.",
+    "TopK": "Not in the table. Common in detection post-processing.",
+    "NonMaxSuppression": "Not in the table. Detection heads usually end up on CPU because of this."
+  }
+}

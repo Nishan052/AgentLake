@@ -1,0 +1,81 @@
+name: skill-evals
+
+# Adapted from awesome-llm-apps/.github/workflows/skill-evals.yml (Apache 2.0).
+# See NOTICE. Paths point at .claude/skills/ and skill-evals/ in this repo, and
+# a verify job was added for this repository's own figures.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  lint:
+    name: skill lint (strict)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - name: Lint every skill against the SKILL.md spec
+        run: |
+          set -e
+          found=0
+          for s in .claude/skills/*/SKILL.md; do
+            [ -e "$s" ] || continue
+            found=1
+            echo "== $(dirname "$s")"
+            python3 skill-evals/tools/skill_lint.py "$(dirname "$s")" --strict
+          done
+          [ "$found" = "1" ] || { echo "no skills found"; exit 1; }
+
+  security-scan:
+    name: security scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - name: Scan skills for supply-chain and injection patterns
+        run: python3 skill-evals/tools/skill_scanner.py .claude/skills
+
+  trigger-routing:
+    name: trigger & routing
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - name: Positives must clear near-misses on description vocabulary
+        run: python3 skill-evals/tools/run_trigger_evals.py
+
+  scripts:
+    name: deterministic script evals
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - name: Run every skill's deterministic eval
+        run: |
+          set -e
+          found=0
+          for t in skill-evals/*/test_*.py; do
+            [ -e "$t" ] || continue
+            found=1
+            echo "== $t"
+            python3 "$t"
+          done
+          [ "$found" = "1" ] || { echo "no evals found"; exit 1; }
+
+  verify:
+    name: every published figure regenerates
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.11"}
+      - name: The optional package the zero-dependency reader is compared against
+        run: pip install onnx
+      - name: Regenerate every quoted figure
+        run: ./verify.sh

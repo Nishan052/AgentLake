@@ -1,0 +1,25 @@
+{
+  "_comment": "Written by promote.py. Records what was last copied here, so a hand-edit in this repo is caught before it is overwritten. Do not edit.",
+  "source": "https://github.com/Nishan052/AgentLake",
+  "files": {
+    ".claude/skills/npu-op-compat/SKILL.md": "6ca43353020432dc",
+    ".claude/skills/npu-op-compat/references/edgetpu-ops.json": "9ee8423e70b3a727",
+    ".claude/skills/npu-op-compat/references/onnx-to-tflite.json": "04715f495f981bbd",
+    ".claude/skills/npu-op-compat/scripts/check_ops.py": "b05f61e07b601127",
+    ".claude/skills/edge-feasibility/SKILL.md": "d41e13c93e40791a",
+    ".claude/skills/edge-feasibility/references/devices.json": "b3b84872ccfa7585",
+    ".claude/skills/edge-feasibility/references/measurements.json": "8b593b429fbc1271",
+    ".claude/skills/edge-feasibility/scripts/feasibility.py": "148ca7c45d67690b",
+    "skill-evals/npu-op-compat/fixtures/README.md": "0948f23c64f8acbb",
+    "skill-evals/npu-op-compat/fixtures/clean_cnn.onnx": "04646ae9d96941a9",
+    "skill-evals/npu-op-compat/fixtures/leakyrelu_backbone.onnx": "0836f271a8129599",
+    "skill-evals/npu-op-compat/test_npu_op_compat.py": "110a04cc7fb201d0",
+    "skill-evals/npu-op-compat/trigger-cases.json": "d8e40c691bf70613",
+    "skill-evals/edge-feasibility/test_edge_feasibility.py": "1dd3c227195de3ef",
+    "skill-evals/edge-feasibility/trigger-cases.json": "957608950a9e2c89",
+    "skill-evals/tools/skill_lint.py": "649cc972e7eabd49",
+    "skill-evals/tools/skill_scanner.py": "adfc2b85e275288e",
+    "skill-evals/tools/run_trigger_evals.py": "76034082f4b4502f",
+    "LICENSE": "6e9f767c87f380a2"
+  }
+}

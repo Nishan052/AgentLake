@@ -1,0 +1,42 @@
+{
+  "purpose": [
+    "The validation set. Every row is a published measured figure from someone",
+    "else's hardware, not from ours. The estimator is scored against these, and",
+    "the score is reported in the skill rather than asserted.",
+    "",
+    "This is what makes the claim falsifiable without owning any of the devices."
+  ],
+  "retrieved": "2026-09-07",
+  "models": {
+    "llama-7b-q4_0":  {"params": 6.74e9, "bits_per_weight": 4.5,
+                       "note": "Q4_0 packs 32 weights into 18 bytes, so 4.5 bits per weight."},
+    "llama-3.2-3b-q4_k_m": {"params": 3.21e9, "bits_per_weight": 4.85,
+                       "note": "Q4_K_M is a mixed scheme averaging about 4.85 bits per weight."}
+  },
+  "measurements": [
+    {"device": "m1",       "model": "llama-7b-q4_0", "tokens_per_sec": 14.19, "source": "llamacpp-4167"},
+    {"device": "m1-pro",   "model": "llama-7b-q4_0", "tokens_per_sec": 36.41, "source": "llamacpp-4167"},
+    {"device": "m1-max",   "model": "llama-7b-q4_0", "tokens_per_sec": 61.19, "source": "llamacpp-4167"},
+    {"device": "m1-ultra", "model": "llama-7b-q4_0", "tokens_per_sec": 83.73, "source": "llamacpp-4167"},
+    {"device": "m2",       "model": "llama-7b-q4_0", "tokens_per_sec": 21.91, "source": "llamacpp-4167"},
+    {"device": "m2-pro",   "model": "llama-7b-q4_0", "tokens_per_sec": 38.86, "source": "llamacpp-4167"},
+    {"device": "m2-max",   "model": "llama-7b-q4_0", "tokens_per_sec": 65.95, "source": "llamacpp-4167"},
+    {"device": "m2-ultra", "model": "llama-7b-q4_0", "tokens_per_sec": 94.27, "source": "llamacpp-4167"},
+    {"device": "m3-pro",   "model": "llama-7b-q4_0", "tokens_per_sec": 30.74, "source": "llamacpp-4167"},
+    {"device": "m3-max",   "model": "llama-7b-q4_0", "tokens_per_sec": 66.31, "source": "llamacpp-4167"},
+    {"device": "m3-ultra", "model": "llama-7b-q4_0", "tokens_per_sec": 92.14, "source": "llamacpp-4167"},
+    {"device": "m4",       "model": "llama-7b-q4_0", "tokens_per_sec": 24.11, "source": "llamacpp-4167"},
+    {"device": "m4-pro",   "model": "llama-7b-q4_0", "tokens_per_sec": 50.74, "source": "llamacpp-4167"},
+    {"device": "m4-max",   "model": "llama-7b-q4_0", "tokens_per_sec": 83.06, "source": "llamacpp-4167"},
+    {"device": "pi5",             "model": "llama-3.2-3b-q4_k_m", "tokens_per_sec": 5.0,
+     "source": "community benchmarks, reported 4-6 t/s; midpoint used", "held_out": true},
+    {"device": "orin-nano-super", "model": "llama-3.2-3b-q4_k_m", "tokens_per_sec": 28.7,
+     "source": "published llama.cpp benchmark", "held_out": true}
+  ],
+  "held_out_note": [
+    "The two held_out rows are a different platform family, a different model",
+    "size and a different quantisation scheme from the fourteen Apple rows. They",
+    "are the reason we know the efficiency curve fitted to Apple parts does not",
+    "transfer: it missed both by about +49%."
+  ]
+}
